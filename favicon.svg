@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="orianziRoseGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F7D8BA"/>
+      <stop offset="50%" stop-color="#D1A074"/>
+      <stop offset="100%" stop-color="#9C6B46"/>
+    </linearGradient>
+    <radialGradient id="coutureDarkBg" cx="30%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#241B20"/>
+      <stop offset="100%" stop-color="#0E0A0C"/>
+    </radialGradient>
+  </defs>
+  <rect width="64" height="64" rx="16" fill="url(#coutureDarkBg)" stroke="#D1A074" stroke-width="1.5"/>
+  <!-- Interlocking O & Diamond Crown Emblem -->
+  <circle cx="32" cy="34" r="14" fill="none" stroke="url(#orianziRoseGold)" stroke-width="3"/>
+  <circle cx="32" cy="34" r="8" fill="none" stroke="#D1A074" stroke-width="1.5" stroke-dasharray="3 2"/>
+  <path d="M26 18 L32 12 L38 18 L32 22 Z" fill="url(#orianziRoseGold)"/>
+  <circle cx="32" cy="34" r="3" fill="url(#orianziRoseGold)"/>
+</svg>
