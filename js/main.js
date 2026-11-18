@@ -104,12 +104,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const closeModalBtn = document.getElementById('closeModalBtn');
 
   if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
+    contactForm.addEventListener('submit', async (e) => {
       e.preventDefault();
 
       const name = document.getElementById('clientName').value.trim();
       const email = document.getElementById('clientEmail').value.trim();
       const garmentType = document.getElementById('coutureCategory').value;
+      const phone = document.getElementById('clientPhone').value.trim();
+      const location = document.getElementById('salonLocation').value;
+      const eventDate = document.getElementById('eventDate').value;
+      const notes = document.getElementById('coutureNotes').value.trim();
 
       if (!name || !email || !garmentType) {
         alert('Please provide your name, email address, and desired couture creation.');
@@ -122,18 +126,35 @@ document.addEventListener('DOMContentLoaded', () => {
       submitBtn.innerHTML = '<span class="material-symbols-outlined" style="animation: spin 1s linear infinite;">sync</span> Transmitting VIP Booking...';
       submitBtn.disabled = true;
 
-      setTimeout(() => {
+      try {
+        const res = await fetch('https://api.formsend.ezeroandone.io/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            api_key: 'd6ea269b0297c71983993439c61cfe512300e8d69ce53dd7b138f2569ca761a8',
+            name: name,
+            email: email,
+            subject: `VIP Private Fitting Request – ${garmentType}`,
+            message: `Couture Commission: ${garmentType}\nPreferred Studio: ${location}\nTarget Occasion Date: ${eventDate || 'Not specified'}\nPhone / WhatsApp: ${phone || 'Not provided'}\n\nDesign Vision & Specifications:\n${notes || 'None provided'}`,
+          }),
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+          contactForm.reset();
+          const clientSpan = document.getElementById('modalClientName');
+          if (clientSpan) clientSpan.textContent = name;
+          if (successModal) successModal.classList.add('active');
+        } else {
+          alert(`Submission error: ${data.message || 'Please try again.'}`);
+        }
+      } catch (err) {
+        alert('A network error occurred. Please check your connection and try again.');
+      } finally {
         submitBtn.innerHTML = originalText;
         submitBtn.disabled = false;
-        contactForm.reset();
-
-        const clientSpan = document.getElementById('modalClientName');
-        if (clientSpan) clientSpan.textContent = name;
-
-        if (successModal) {
-          successModal.classList.add('active');
-        }
-      }, 900);
+      }
     });
   }
 
